@@ -36,35 +36,41 @@ namespace MechVibesSoundPackInstaller
 				string mechvibesFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\mechvibes_custom";
 				string soundpackName = Path.GetFileName(fileSoundPackPath.File);
 
-				File.Copy(fileSoundPackPath.File, $"{mechvibesFolder}\\{soundpackName}");
-				ZipFile.ExtractToDirectory(fileSoundPackPath.File, mechvibesFolder);
-				File.Delete($"{mechvibesFolder}\\{soundpackName}");
-
-				if (chckShowInstalledPack.Checked)
-					Process.Start("explorer.exe", mechvibesFolder);
-
-				int mechvibesCount = 0;
-				foreach (Process proc in Process.GetProcesses())
-					if (proc.ProcessName == "Mechvibes")
-						mechvibesCount++;
-
-				if (mechvibesCount >= 1)
-				{
-					if (MessageBox.Show("You need to restart MechVibes to load the new soundpack.\n\nWould you like to restart it now?",
-						"SoundPack Installed", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-					{
-						foreach (Process proc in Process.GetProcesses())
-							if (proc.ProcessName == "Mechvibes")
-								proc.Kill();
-
-						Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\AppData\\Local\\Programs\\mechvibes\\Mechvibes.exe");
-					}
-				}
+				if (Directory.Exists($"{mechvibesFolder}\\{Path.GetFileNameWithoutExtension(soundpackName)}"))
+					MessageBox.Show("Cannot install soundpack because it's already been installed into the custom soundpacks folder in Mechvibes.",
+						"SoundPack Already Installed", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				else
 				{
-					if (MessageBox.Show("Would you like to load Mechvibes with your new soundpack?", "Load Mechvibes",
-						MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-						Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\AppData\\Local\\Programs\\mechvibes\\Mechvibes.exe");
+					File.Copy(fileSoundPackPath.File, $"{mechvibesFolder}\\{soundpackName}");
+					ZipFile.ExtractToDirectory(fileSoundPackPath.File, mechvibesFolder);
+					File.Delete($"{mechvibesFolder}\\{soundpackName}");
+
+					if (chckShowInstalledPack.Checked)
+						Process.Start("explorer.exe", mechvibesFolder);
+
+					int mechvibesCount = 0;
+					foreach (Process proc in Process.GetProcesses())
+						if (proc.ProcessName == "Mechvibes")
+							mechvibesCount++;
+
+					if (mechvibesCount >= 1)
+					{
+						if (MessageBox.Show("You need to restart MechVibes to load the new soundpack.\n\nWould you like to restart it now?",
+							"SoundPack Installed", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+						{
+							foreach (Process proc in Process.GetProcesses())
+								if (proc.ProcessName == "Mechvibes")
+									proc.Kill();
+
+							Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\AppData\\Local\\Programs\\mechvibes\\Mechvibes.exe");
+						}
+					}
+					else
+					{
+						if (MessageBox.Show("Would you like to load Mechvibes with your new soundpack?", "Load Mechvibes",
+							MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+							Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\AppData\\Local\\Programs\\mechvibes\\Mechvibes.exe");
+					}
 				}
 			}
 		}

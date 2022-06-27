@@ -99,7 +99,7 @@
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.CanResize = false;
-			this.ClientSize = new System.Drawing.Size(375, 135);
+			this.ClientSize = new System.Drawing.Size(375, 134);
 			this.Controls.Add(this.chckShowInstalledPack);
 			this.Controls.Add(this.btnInstallSoundPack);
 			this.Controls.Add(this.fileSoundPackPath);
@@ -107,7 +107,8 @@
 			this.Font = new System.Drawing.Font("Segoe UI", 9F);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(375, 135);
+			this.MaximumSize = new System.Drawing.Size(375, 134);
+			this.MinimumSize = new System.Drawing.Size(375, 134);
 			this.Name = "MainForm";
 			this.ShowIcon = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
